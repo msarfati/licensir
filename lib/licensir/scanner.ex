@@ -61,20 +61,22 @@ defmodule Licensir.Scanner do
 
   defp filter_top_level(deps, opts) do
     if Keyword.get(opts, :top_level_only) do
-      Enum.filter(deps, &(&1.dep.top_level))
+      Enum.filter(deps, & &1.dep.top_level)
     else
       deps
     end
   end
 
   defp get_version(%Mix.Dep{status: {:ok, version}}), do: version
+  defp get_version(%Mix.Dep{status: _}), do: "N/A"
   defp get_version(_), do: nil
 
   #
   # Search in hex_metadata.config
   #
 
-  defp search_hex_metadata(licenses) when is_list(licenses), do: Enum.map(licenses, &search_hex_metadata/1)
+  defp search_hex_metadata(licenses) when is_list(licenses),
+    do: Enum.map(licenses, &search_hex_metadata/1)
 
   defp search_hex_metadata(%License{} = license) do
     Map.put(license, :hex_metadata, search_hex_metadata(license.dep))
