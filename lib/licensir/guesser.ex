@@ -22,7 +22,7 @@ defmodule Licensir.Guesser do
   defp guess(hex, nil) when length(hex) > 0, do: Enum.join(hex, ", ")
   defp guess(hex, file) when length(hex) == 1 and hd(hex) == file, do: file
 
-  defp guess(hex, file) do
-    "Unsure (found: " <> Enum.join(hex, ", ") <> ", " <> file <> ")"
+  defp guess(hex, _) do
+    "" <> Enum.join(hex, ", ")
   end
 end
